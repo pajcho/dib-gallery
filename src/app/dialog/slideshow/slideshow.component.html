@@ -4,7 +4,7 @@
       <i class="fas fa-times fa-4x" mat-dialog-close></i>
     </a>
     <div class="mr-4">
-      <a class="btn btn-link">
+      <a class="btn btn-link" (click)="previous()">
         <i class="fas fa-arrow-left fa-4x"></i>
       </a>
     </div>
@@ -13,7 +13,7 @@
       <h3 class="text-center mt-3">{{ data.image.title }}</h3>
     </div>
     <div class="ml-4">
-      <a class="btn btn-link">
+      <a class="btn btn-link" (click)="next()">
         <i class="fas fa-arrow-right fa-4x"></i>
       </a>
     </div>

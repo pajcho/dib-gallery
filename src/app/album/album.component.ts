@@ -19,6 +19,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
   album: Album;
   private sub: any;
   id: number;
+  query: string;
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute, private albumService: AlbumService,
               private imageService: ImageService, private userService: UserService) {

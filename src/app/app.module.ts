@@ -12,6 +12,8 @@ import {SlideshowComponent} from './dialog/slideshow/slideshow.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {DeleteComponent} from './dialog/delete/delete.component';
 import {HttpClientModule} from '@angular/common/http';
+import { FilterImagesPipe } from './filter-images.pipe';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import {HttpClientModule} from '@angular/common/http';
     AlbumsComponent,
     AlbumComponent,
     SlideshowComponent,
-    DeleteComponent
+    DeleteComponent,
+    FilterImagesPipe
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import {HttpClientModule} from '@angular/common/http';
     MatDialogModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

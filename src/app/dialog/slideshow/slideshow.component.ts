@@ -16,4 +16,22 @@ export class SlideshowComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  previous(): void {
+    const currentIndex = this.data.album.images.findIndex(image => image.id === this.data.image.id);
+
+    // We use Math.max to make sure we dont go bellow zero
+    const previousIndex = Math.max(0, currentIndex - 1);
+
+    this.data.image = this.data.album.images[previousIndex];
+  }
+
+  next(): void {
+    const currentIndex = this.data.album.images.findIndex(image => image.id === this.data.image.id);
+
+    // We use Math.min to make sure we dont go outside of the array
+    const nextIndex = Math.min(this.data.album.images.length - 1, currentIndex + 1);
+
+    this.data.image = this.data.album.images[nextIndex];
+  }
+
 }
