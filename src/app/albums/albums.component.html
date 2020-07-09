@@ -1,0 +1,29 @@
+<div class="row align-items-center py-3 sticky-top bg-white">
+  <div class="col-12 mb-3 back-wrapper">&nbsp;</div>
+  <div class="col">
+    <h1>Foto albumi</h1>
+  </div>
+  <div class="col-auto">
+    <a class="btn px-0 btn-link" (click)="gridColumns()" [ngClass]="{ 'active': layout === 'columns' }">
+      <i class="fas fa-lg fa-th-large"></i>
+    </a>
+    <a class="btn px-0 btn-link ml-3" (click)="gridRows()" [ngClass]="{ 'active': layout === 'rows' }">
+      <i class="fas fa-lg fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<div class="row">
+  <div *ngFor="let album of albums" class="col-xl-4 col-lg-4 col-md-6 mb-4"
+       [ngClass]="{ 'row-layout': layout === 'rows' }">
+    <div *ngIf="album.images" class="card border-0">
+      <img [src]="album.images[0].url" class="card-img-top rounded-0">
+      <div class="card-body">
+        <h4 class="card-title mb-0">
+          <a [routerLink]="'/album/' + album.id" class="stretched-link">{{ album.title }}</a>
+        </h4>
+        <p *ngIf="album.user" class="card-text text-muted">Kreirao: {{ album.user.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>

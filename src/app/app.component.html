@@ -1,0 +1,17 @@
+<style>
+
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">DIB Galerija</a>
+
+  <ul class="navbar-nav ml-auto" *ngIf="authService.isLoggedIn">
+    <li class="nav-item active">
+      <a class="btn btn-link nav-link" (click)="logout()">Izloguj se</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container mt-2">
+  <router-outlet></router-outlet>
+</div>

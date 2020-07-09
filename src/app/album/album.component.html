@@ -1,0 +1,52 @@
+<div class="row align-items-center py-3 sticky-top bg-white">
+  <div class="col-12 mb-3 back-wrapper">
+    <a routerLink="/albums" class="btn btn-link m-0 p-0">
+      <i class="fas fa-arrow-left mr-1"></i> Povratak
+    </a>
+  </div>
+  <div class="col">
+    <h1>Arandjelovac 1990 god.</h1>
+  </div>
+  <div class="col-auto">
+    <a class="btn px-0 btn-link" (click)="gridColumns()" [ngClass]="{ 'active': layout === 'columns' }">
+      <i class="fas fa-lg fa-th-large"></i>
+    </a>
+    <a class="btn px-0 btn-link ml-3" (click)="gridRows()" [ngClass]="{ 'active': layout === 'rows' }">
+      <i class="fas fa-lg fa-bars"></i>
+    </a>
+  </div>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-4 pr-5">
+        <div class="input-group search-wrapper">
+          <div class="input-group-prepend">
+            <span class="input-group-text bg-white pr-0">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+          <input type="text" name="search" class="form-control rounded-0" placeholder="Pretraži" autocomplete="off">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="album && album.images" class="row">
+  <div *ngFor="let image of album.images" class="col-xl-4 col-lg-4 col-md-6 mb-4"
+       [ngClass]="{ 'row-layout': layout === 'rows' }">
+    <div class="card border-0">
+      <img (click)="openSlideshow(image)" [src]="image.url" class="card-img-top rounded-0">
+      <div class="card-body">
+        <h4 class="card-title mb-0">
+          <div class="d-flex justify-content-between">
+            <a (click)="openSlideshow(image)">{{ image.title }}</a>
+            <a (click)="delete(image)" class="text-muted">
+              <i class="fas fa-xs fa-trash"></i>
+            </a>
+          </div>
+        </h4>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,82 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 100;
+}
+
+.btn.focus,
+.btn:focus {
+  box-shadow: none;
+}
+
+.form-control {
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 1px solid #000;
+
+  &:focus {
+    box-shadow: none;
+    border-color: var(--warning);
+  }
+}
+
+.sticky-top {
+  z-index: 999;
+}
+
+.dip-dialog-panel {
+  mat-dialog-container {
+    border-radius: 0;
+    padding: 10%;
+
+    mat-dialog-content {
+      max-height: 100%;
+
+      .close-btn {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+      }
+
+      i {
+        -webkit-text-stroke: 7px #fff;
+
+        &.fa-times {
+          -webkit-text-stroke: 9px #fff;
+        }
+      }
+    }
+  }
+}
+
+a {
+  color: inherit !important;
+
+  &:hover {
+    cursor: pointer !important;
+    color: var(--warning) !important;
+    text-decoration: none !important;
+  }
+
+  &.active {
+    color: var(--warning) !important;
+  }
+}
+
+.back-wrapper {
+  min-height: 30px;
+}
