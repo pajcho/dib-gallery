@@ -8,6 +8,7 @@ import {ImageService} from '../core/image.service';
 import {UserService} from '../core/user.service';
 import {forkJoin} from 'rxjs';
 import {Album} from '../core/album.model';
+import {Image} from '../core/image.model';
 
 @Component({
   selector: 'app-album',
@@ -68,13 +69,13 @@ export class AlbumComponent implements OnInit, OnDestroy {
     });
   }
 
-  openSlideshow(image): void {
+  openSlideshow(images: Image[], image: Image): void {
     this.dialog.open(SlideshowComponent, {
       height: '100%',
       width: '100%',
       maxWidth: '100%',
       panelClass: 'dip-dialog-panel',
-      data: {album: this.album, image}
+      data: {images, image}
     });
   }
 }

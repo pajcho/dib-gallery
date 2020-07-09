@@ -35,11 +35,11 @@
     <div *ngFor="let image of  filteredImages" class="col-xl-4 col-lg-4 col-md-6 mb-4"
          [ngClass]="{ 'row-layout': layout === 'rows' }">
       <div class="card border-0">
-        <img (click)="openSlideshow(image)" [src]="image.url" class="card-img-top rounded-0">
+        <img (click)="openSlideshow(filteredImages, image)" [src]="image.url" class="card-img-top rounded-0">
         <div class="card-body">
           <h4 class="card-title mb-0">
             <div class="d-flex justify-content-between">
-              <a (click)="openSlideshow(image)">{{ image.title }}</a>
+              <a (click)="openSlideshow(filteredImages, image)">{{ image.title }}</a>
               <a (click)="delete(image)" class="text-muted">
                 <i class="fas fa-xs fa-trash"></i>
               </a>
