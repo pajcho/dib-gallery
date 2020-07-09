@@ -17,7 +17,7 @@
   <div *ngFor="let album of albums" class="col-xl-4 col-lg-4 col-md-6 mb-4"
        [ngClass]="{ 'row-layout': layout === 'rows' }">
     <div *ngIf="album.images" class="card border-0">
-      <img [src]="album.images[0].url" class="card-img-top rounded-0">
+      <img [src]="album.images[0].thumbnailUrl" class="card-img-top rounded-0">
       <div class="card-body">
         <h4 class="card-title mb-0">
           <a [routerLink]="'/album/' + album.id" class="stretched-link">{{ album.title }}</a>
