@@ -1,13 +1,13 @@
 <mat-dialog-content class="w-100 h-100 m-0 p-0">
   <div class="d-flex justify-content-around align-items-center h-100">
-    <a class="btn btn-link close-btn">
-      <i class="fas fa-times fa-4x" mat-dialog-close></i>
+    <a class="btn btn-link close-btn" mat-dialog-close>
+      <i class="fas fa-times fa-4x"></i>
     </a>
     <div class="flex-grow text-center">
       <h1 class="text-center mb-4">Da li si siguran da zelis da obrises ({{ data.image.title }})?</h1>
-      <a class="btn btn-link confirmation-message" [mat-dialog-close]="true">Da</a>
+      <a class="btn btn-link confirmation-button" [mat-dialog-close]="true">Da</a>
       <i class="fas fa-xs fa-circle"></i>
-      <a class="btn btn-link confirmation-message" [mat-dialog-close]="false">Ne</a>
+      <a class="btn btn-link confirmation-button" [mat-dialog-close]="false">Ne</a>
     </div>
   </div>
 </mat-dialog-content>

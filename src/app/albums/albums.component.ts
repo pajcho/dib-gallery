@@ -3,10 +3,9 @@ import {AlbumService} from '../core/album.service';
 import {ImageService} from '../core/image.service';
 import {UserService} from '../core/user.service';
 import {Observable} from 'rxjs';
-import {ActionsSubject, Store} from '@ngrx/store';
-import {AppState} from '../reducers';
-import {AlbumAction, AlbumActionTypes, LoadAlbums} from '../actions/album.actions';
-import {ofType} from '@ngrx/effects';
+import {select, Store} from '@ngrx/store';
+import {albumListLoading, AppState, selectAlbums} from '../reducers';
+import {LoadAlbums} from '../actions/album.actions';
 import {Album} from '../core/album.model';
 
 @Component({
@@ -16,31 +15,19 @@ import {Album} from '../core/album.model';
 })
 export class AlbumsComponent implements OnInit {
   albums = [];
+  albums$: Observable<Album[]>;
+  loading$: Observable<boolean>;
   layout = 'columns';
 
   constructor(private albumService: AlbumService, private imageService: ImageService,
-              private userService: UserService, private store: Store<AppState>, private actionsSubject: ActionsSubject) {
+              private userService: UserService, private store: Store<AppState>) {
 
-    this.actionsSubject.pipe(
-      ofType(AlbumActionTypes.LoadAlbumsSuccess)
-    ).subscribe((data: AlbumAction) => {
-      console.log(data);
-    });
+    this.albums$ = this.store.pipe(select(selectAlbums));
+    this.loading$ = this.store.pipe(select(albumListLoading));
   }
 
   ngOnInit(): void {
     this.store.dispatch(new LoadAlbums());
-
-    // this.albumService.list().subscribe((albums) => {
-    //   this.albums = albums;
-    //
-    //   this.albums.forEach(album => {
-    //     forkJoin([album.getImages(), album.getUser()]).subscribe(([images, user]) => {
-    //       album.images = images;
-    //       album.user = user;
-    //     });
-    //   });
-    // });
   }
 
   gridColumns(): void {

@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -14,6 +14,17 @@ export class SlideshowComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'ArrowRight') {
+      this.next();
+    }
+
+    if (event.key === 'ArrowLeft') {
+      this.previous();
+    }
   }
 
   previous(): void {

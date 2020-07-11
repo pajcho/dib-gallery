@@ -28,7 +28,7 @@ import {AlbumEffects} from './effects/album.effects';
     AlbumComponent,
     SlideshowComponent,
     DeleteComponent,
-    FilterImagesPipe
+    FilterImagesPipe,
   ],
   imports: [
     BrowserModule,
@@ -41,8 +41,8 @@ import {AlbumEffects} from './effects/album.effects';
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
+        strictStateImmutability: false,
+        strictActionImmutability: false,
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

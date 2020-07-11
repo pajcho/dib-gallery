@@ -1,14 +1,18 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {SlideshowComponent} from '../dialog/slideshow/slideshow.component';
 import {DeleteComponent} from '../dialog/delete/delete.component';
 import {ActivatedRoute} from '@angular/router';
 import {AlbumService} from '../core/album.service';
 import {ImageService} from '../core/image.service';
 import {UserService} from '../core/user.service';
-import {forkJoin} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {Album} from '../core/album.model';
 import {Image} from '../core/image.model';
+import {select, Store} from '@ngrx/store';
+import {albumListLoading, AppState, selectAlbums} from '../reducers';
+import {LoadAlbum} from '../actions/album.actions';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-album',
@@ -21,23 +25,22 @@ export class AlbumComponent implements OnInit, OnDestroy {
   private sub: any;
   id: number;
   query: string;
+  album$: Observable<Album>;
+  loading$: Observable<boolean>;
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute, private albumService: AlbumService,
-              private imageService: ImageService, private userService: UserService) {
+              private imageService: ImageService, private userService: UserService, private store: Store<AppState>) {
+
+    this.album$ = combineLatest([this.route.params, this.store.pipe(select(selectAlbums))]).pipe(
+      map(([{id}, albums]) => albums.find((album: Album) => album.id === +id)),
+    );
+    this.loading$ = this.store.pipe(select(albumListLoading));
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params.id;
-
-      this.albumService.get(this.id).subscribe((album) => {
-        this.album = album;
-
-        forkJoin([this.album.getImages(), this.album.getUser()]).subscribe(([images, user]) => {
-          album.images = images;
-          album.user = user;
-        });
-      });
+      this.store.dispatch(new LoadAlbum({id: this.id}));
     });
   }
 

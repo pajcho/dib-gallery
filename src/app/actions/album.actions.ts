@@ -3,20 +3,23 @@ import {Album} from '../core/album.model';
 
 export enum AlbumActionTypes {
   LoadAlbums = '[Albums] Load Albums',
+  LoadAlbumsStart = '[Albums] Load Albums Start',
   LoadAlbumsError = '[Albums] Load Albums Error',
   LoadAlbumsSuccess = '[Albums] Load Albums Success',
+  LoadAlbum = '[Album] Load Album',
+  LoadAlbumError = '[Album] Load Album Error',
+  LoadAlbumSuccess = '[Album] Load Album Success',
 }
 
-export class AlbumAction implements Action {
-  type: string;
-  payload: {
-    data: Album[],
-    loading: boolean,
-  };
-}
-
+/**
+ * Albums actions
+ */
 export class LoadAlbums implements Action {
   readonly type = AlbumActionTypes.LoadAlbums;
+}
+
+export class LoadAlbumsStart implements Action {
+  readonly type = AlbumActionTypes.LoadAlbumsStart;
 }
 
 export class LoadAlbumsSuccess implements Action {
@@ -35,4 +38,31 @@ export class LoadAlbumsError implements Action {
   }
 }
 
-export type AlbumActions = LoadAlbums | LoadAlbumsError | LoadAlbumsSuccess;
+/**
+ * Album actions
+ */
+export class LoadAlbum implements Action {
+  readonly type = AlbumActionTypes.LoadAlbum;
+
+  constructor(readonly payload: { id: number }) {
+
+  }
+}
+
+export class LoadAlbumSuccess implements Action {
+  readonly type = AlbumActionTypes.LoadAlbumSuccess;
+
+  constructor(readonly payload: { data: Album }) {
+
+  }
+}
+
+export class LoadAlbumError implements Action {
+  readonly type = AlbumActionTypes.LoadAlbumError;
+
+  constructor(readonly payload: { error: string }) {
+
+  }
+}
+
+export type Actions = LoadAlbums | LoadAlbumsStart | LoadAlbumsError | LoadAlbumsSuccess | LoadAlbum | LoadAlbumError | LoadAlbumSuccess;
