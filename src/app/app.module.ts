@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {LoginComponent} from './login/login.component';
 import {AlbumsComponent} from './albums/albums.component';
-import {AlbumComponent} from './album/album.component';
+import {ImagesComponent} from './images/images.component';
 import {SlideshowComponent} from './dialog/slideshow/slideshow.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {DeleteComponent} from './dialog/delete/delete.component';
@@ -26,7 +26,7 @@ import {ImageEffects} from './effects/image.effects';
     AppComponent,
     LoginComponent,
     AlbumsComponent,
-    AlbumComponent,
+    ImagesComponent,
     SlideshowComponent,
     DeleteComponent,
     FilterImagesPipe,

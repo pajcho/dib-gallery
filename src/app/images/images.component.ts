@@ -16,11 +16,11 @@ import {map} from 'rxjs/operators';
 import {DeleteImage} from '../actions/image.actions';
 
 @Component({
-  selector: 'app-album',
-  templateUrl: './album.component.html',
-  styleUrls: ['./album.component.scss']
+  selector: 'app-images',
+  templateUrl: './images.component.html',
+  styleUrls: ['./images.component.scss']
 })
-export class AlbumComponent implements OnInit, OnDestroy {
+export class ImagesComponent implements OnInit, OnDestroy {
   layout = 'columns';
   album: Album;
   private sub: any;
