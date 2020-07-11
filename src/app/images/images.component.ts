@@ -9,12 +9,14 @@ import {UserService} from '../core/user.service';
 import {combineLatest, Observable} from 'rxjs';
 import {Album} from '../core/album.model';
 import {Image} from '../core/image.model';
-import {select, Store} from '@ngrx/store';
+import {ActionsSubject, select, Store} from '@ngrx/store';
 import {albumListLoading, AppState, layoutDirection, selectAlbums} from '../reducers';
 import {LoadAlbum} from '../actions/album.actions';
 import {map} from 'rxjs/operators';
-import {DeleteImage} from '../actions/image.actions';
+import {DeleteImage, ImageActionTypes} from '../actions/image.actions';
 import {ChangeLayout} from '../actions/layout.actions';
+import {ofType} from '@ngrx/effects';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-images',
@@ -31,13 +33,24 @@ export class ImagesComponent implements OnInit, OnDestroy {
   layout$: Observable<string>;
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute, private albumService: AlbumService,
-              private imageService: ImageService, private userService: UserService, private store: Store<AppState>) {
+              private imageService: ImageService, private userService: UserService, private store: Store<AppState>,
+              private actionSubject: ActionsSubject, private snackBar: MatSnackBar) {
 
     this.album$ = combineLatest([this.route.params, this.store.pipe(select(selectAlbums))]).pipe(
       map(([{id}, albums]) => albums.find((album: Album) => album.id === +id)),
     );
     this.layout$ = this.store.pipe(select(layoutDirection));
     this.loading$ = this.store.pipe(select(albumListLoading));
+
+    this.actionSubject.pipe(
+      ofType(ImageActionTypes.DeleteImageSuccess),
+    ).subscribe(() => {
+      this.snackBar.open('Slika je uspešno obrisana', null, {
+        duration: 4000,
+        horizontalPosition: 'left',
+        verticalPosition: 'bottom',
+      });
+    });
   }
 
   ngOnInit(): void {

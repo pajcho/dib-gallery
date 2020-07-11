@@ -21,6 +21,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {AlbumEffects} from './effects/album.effects';
 import {ImageEffects} from './effects/image.effects';
 import { AlbumComponent } from './albums/album/album.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AlbumComponent } from './albums/album/album.component';
   ],
   imports: [
     BrowserModule,
+    MatSnackBarModule,
     MatButtonModule,
     MatDialogModule,
     AppRoutingModule,
