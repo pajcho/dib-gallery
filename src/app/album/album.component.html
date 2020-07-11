@@ -5,7 +5,7 @@
     </a>
   </div>
   <div class="col">
-    <h1>Arandjelovac 1990 god.</h1>
+    <h1>{{ (album$ | async)?.title }}</h1>
   </div>
   <div class="col-auto">
     <a class="btn px-0 btn-link" (click)="gridColumns()" [ngClass]="{ 'active': layout === 'columns' }">
@@ -24,19 +24,20 @@
               <i class="fas fa-search"></i>
             </span>
           </div>
-          <input [(ngModel)]="query" type="text" name="search" class="form-control rounded-0" placeholder="Pretraži" autocomplete="off">
+          <input [(ngModel)]="query" type="text" name="search" class="form-control rounded-0" placeholder="Pretraži"
+                 autocomplete="off">
         </div>
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="album && album.images" class="row">
-  <ng-container *ngIf="(album.images | filterImages:query) as filteredImages">
+<div class="row">
+  <ng-container *ngIf="((album$ | async)?.images | filterImages:query) as filteredImages">
     <div *ngFor="let image of  filteredImages" class="col-xl-4 col-lg-4 col-md-6 mb-4"
          [ngClass]="{ 'row-layout': layout === 'rows' }">
       <div class="card border-0">
         <img (click)="openSlideshow(filteredImages, image)" [src]="image.thumbnailUrl"
-             class="card-img-top rounded-0"
+             class="card-img-top rounded-0 shadow shadow-md" loading="lazy"
              [ngClass]="{ 'col-2 col-lg-4 col-sm-3 p-0': layout === 'rows' }">
         <div class="card-body">
           <h4 class="card-title mb-0">

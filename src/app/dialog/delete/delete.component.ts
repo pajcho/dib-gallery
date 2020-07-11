@@ -13,10 +13,6 @@ export class DeleteComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data) {
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   ngOnInit(): void {
   }
 

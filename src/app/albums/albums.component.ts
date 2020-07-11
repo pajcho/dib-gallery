@@ -2,9 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {AlbumService} from '../core/album.service';
 import {ImageService} from '../core/image.service';
 import {UserService} from '../core/user.service';
-import {Image} from '../core/image.model';
-import {User} from '../core/user.model';
-import {forkJoin} from 'rxjs';
+import {Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import {albumListLoading, AppState, selectAlbums} from '../reducers';
+import {LoadAlbums} from '../actions/album.actions';
+import {Album} from '../core/album.model';
 
 @Component({
   selector: 'app-albums',
@@ -13,24 +15,19 @@ import {forkJoin} from 'rxjs';
 })
 export class AlbumsComponent implements OnInit {
   albums = [];
-  images: Image[];
-  user: User;
+  albums$: Observable<Album[]>;
+  loading$: Observable<boolean>;
   layout = 'columns';
 
-  constructor(private albumService: AlbumService, private imageService: ImageService, private userService: UserService) {
+  constructor(private albumService: AlbumService, private imageService: ImageService,
+              private userService: UserService, private store: Store<AppState>) {
+
+    this.albums$ = this.store.pipe(select(selectAlbums));
+    this.loading$ = this.store.pipe(select(albumListLoading));
   }
 
   ngOnInit(): void {
-    this.albumService.list().subscribe((albums) => {
-      this.albums = albums;
-
-      this.albums.forEach(album => {
-        forkJoin([album.getImages(), album.getUser()]).subscribe(([images, user]) => {
-          album.images = images;
-          album.user = user;
-        });
-      });
-    });
+    this.store.dispatch(new LoadAlbums());
   }
 
   gridColumns(): void {
