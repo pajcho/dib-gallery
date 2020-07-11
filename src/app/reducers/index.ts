@@ -4,6 +4,7 @@ import {AlbumActionTypes, Actions} from '../actions/album.actions';
 import * as Image from '../actions/image.actions';
 import {Album} from '../core/album.model';
 import {ImageActionTypes} from '../actions/image.actions';
+import * as Layout from '../actions/layout.actions';
 
 export interface AlbumsState {
   data: Album[] | [];
@@ -19,6 +20,7 @@ const initialAlbumsState: AlbumsState = {
 
 export interface AppState {
   albums: AlbumsState;
+  layout: LayoutState;
 }
 
 export function albumsReducer(state: AlbumsState = initialAlbumsState, action: Actions | Image.Actions): AlbumsState {
@@ -93,13 +95,37 @@ export function albumsReducer(state: AlbumsState = initialAlbumsState, action: A
   }
 }
 
+
+export interface LayoutState {
+  direction: string;
+}
+
+const initialLayoutState: LayoutState = {
+  direction: 'columns',
+};
+
+export function layoutReducer(state: LayoutState = initialLayoutState, action: Layout.Actions): LayoutState {
+  switch (action.type) {
+    case Layout.LayoutActionTypes.ChangeLayout:
+      return {
+        direction: action.payload.direction
+      };
+
+    default:
+      return state;
+  }
+}
+
 export const reducers: ActionReducerMap<AppState> = {
   albums: albumsReducer,
+  layout: layoutReducer,
 };
 
 export const selectAlbums = (state: AppState) => state.albums.data;
 export const albumListLoading = (state: AppState) => state.albums.loading;
 export const allAlbumsLoaded = (state: AppState) => state.albums.allAlbumsLoaded;
+
+export const layoutDirection = (state: AppState) => state.layout.direction;
 
 export const selectAlbum = (id: number) => {
   return createSelector(

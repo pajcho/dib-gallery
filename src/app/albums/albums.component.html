@@ -4,10 +4,10 @@
     <h1>Foto albumi</h1>
   </div>
   <div class="col-auto">
-    <a class="btn px-0 btn-link" (click)="gridColumns()" [ngClass]="{ 'active': layout === 'columns' }">
+    <a class="btn px-0 btn-link" (click)="gridColumns()" [ngClass]="{ 'active': (layout$ | async) === 'columns' }">
       <i class="fas fa-lg fa-th-large"></i>
     </a>
-    <a class="btn px-0 btn-link ml-3" (click)="gridRows()" [ngClass]="{ 'active': layout === 'rows' }">
+    <a class="btn px-0 btn-link ml-3" (click)="gridRows()" [ngClass]="{ 'active': (layout$ | async) === 'rows' }">
       <i class="fas fa-lg fa-bars"></i>
     </a>
   </div>
@@ -22,16 +22,7 @@
   </div>
 
   <div *ngFor="let album of albums$ | async" class="col-xl-4 col-lg-4 col-md-6 mb-4"
-       [ngClass]="{ 'row-layout': layout === 'rows' }">
-    <div *ngIf="album.images" class="card border-0">
-      <img [src]="album.images[0].thumbnailUrl" class="card-img-top rounded-0 shadow shadow-md" loading="lazy"
-           [ngClass]="{ 'col-2 col-lg-4 col-sm-3 p-0': layout === 'rows' }">
-      <div class="card-body">
-        <h4 class="card-title mb-0">
-          <a [routerLink]="'/album/' + album.id" class="stretched-link">{{ album.title }}</a>
-        </h4>
-        <p *ngIf="album.user" class="card-text text-muted">Kreirao: {{ album.user.name }}</p>
-      </div>
-    </div>
+       [ngClass]="{ 'row-layout': (layout$ | async) === 'rows' }">
+    <app-album [album]="album"></app-album>
   </div>
 </div>

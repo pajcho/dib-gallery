@@ -1,0 +1,10 @@
+<div *ngIf="album.images" class="card border-0">
+  <img [src]="album.images[0].thumbnailUrl" class="card-img-top rounded-0 shadow shadow-md" loading="lazy"
+       [ngClass]="{ 'col-2 col-lg-4 col-sm-3 p-0': (layout$ | async) === 'rows' }">
+  <div class="card-body">
+    <h4 class="card-title mb-0">
+      <a [routerLink]="'/album/' + album.id" class="stretched-link">{{ album.title }}</a>
+    </h4>
+    <p *ngIf="album.user" class="card-text text-muted">Kreirao: {{ album.user.name }}</p>
+  </div>
+</div>

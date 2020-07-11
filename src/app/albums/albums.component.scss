@@ -1,35 +1,37 @@
-.card {
-  &:hover {
-    img {
-      opacity: .9;
-      transition: opacity .25s ease-in-out;
-      cursor: pointer;
-    }
-  }
-
-  .card-body {
-    padding-left: 0;
-    padding-right: 0;
-
-    .card-text {
-      font-weight: 100;
-    }
-  }
-}
-
-.row-layout {
-  flex: 0 0 100%;
-  max-width: 100%;
-
+:host ::ng-deep {
   .card {
-    flex-direction: row;
-
-    img {
-      max-width: 350px;
+    &:hover {
+      img {
+        opacity: .9;
+        transition: opacity .25s ease-in-out;
+        cursor: pointer;
+      }
     }
 
     .card-body {
-      padding-left: 20px;
+      padding-left: 0;
+      padding-right: 0;
+
+      .card-text {
+        font-weight: 100;
+      }
+    }
+  }
+
+  .row-layout {
+    flex: 0 0 100%;
+    max-width: 100%;
+
+    .card {
+      flex-direction: row;
+
+      img {
+        max-width: 350px;
+      }
+
+      .card-body {
+        padding-left: 20px;
+      }
     }
   }
 }

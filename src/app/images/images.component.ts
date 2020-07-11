@@ -10,10 +10,11 @@ import {combineLatest, Observable} from 'rxjs';
 import {Album} from '../core/album.model';
 import {Image} from '../core/image.model';
 import {select, Store} from '@ngrx/store';
-import {albumListLoading, AppState, selectAlbums} from '../reducers';
+import {albumListLoading, AppState, layoutDirection, selectAlbums} from '../reducers';
 import {LoadAlbum} from '../actions/album.actions';
 import {map} from 'rxjs/operators';
 import {DeleteImage} from '../actions/image.actions';
+import {ChangeLayout} from '../actions/layout.actions';
 
 @Component({
   selector: 'app-images',
@@ -21,13 +22,13 @@ import {DeleteImage} from '../actions/image.actions';
   styleUrls: ['./images.component.scss']
 })
 export class ImagesComponent implements OnInit, OnDestroy {
-  layout = 'columns';
   album: Album;
   private sub: any;
   id: number;
   query: string;
   album$: Observable<Album>;
   loading$: Observable<boolean>;
+  layout$: Observable<string>;
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute, private albumService: AlbumService,
               private imageService: ImageService, private userService: UserService, private store: Store<AppState>) {
@@ -35,6 +36,7 @@ export class ImagesComponent implements OnInit, OnDestroy {
     this.album$ = combineLatest([this.route.params, this.store.pipe(select(selectAlbums))]).pipe(
       map(([{id}, albums]) => albums.find((album: Album) => album.id === +id)),
     );
+    this.layout$ = this.store.pipe(select(layoutDirection));
     this.loading$ = this.store.pipe(select(albumListLoading));
   }
 
@@ -50,11 +52,11 @@ export class ImagesComponent implements OnInit, OnDestroy {
   }
 
   gridColumns(): void {
-    this.layout = 'columns';
+    this.store.dispatch(new ChangeLayout({direction: 'columns'}));
   }
 
   gridRows(): void {
-    this.layout = 'rows';
+    this.store.dispatch(new ChangeLayout({direction: 'rows'}));
   }
 
   delete(image): void {

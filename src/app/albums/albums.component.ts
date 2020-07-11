@@ -4,9 +4,10 @@ import {ImageService} from '../core/image.service';
 import {UserService} from '../core/user.service';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {albumListLoading, AppState, selectAlbums} from '../reducers';
+import {albumListLoading, AppState, layoutDirection, selectAlbums} from '../reducers';
 import {LoadAlbums} from '../actions/album.actions';
 import {Album} from '../core/album.model';
+import {ChangeLayout} from '../actions/layout.actions';
 
 @Component({
   selector: 'app-albums',
@@ -17,11 +18,12 @@ export class AlbumsComponent implements OnInit {
   albums = [];
   albums$: Observable<Album[]>;
   loading$: Observable<boolean>;
-  layout = 'columns';
+  layout$: Observable<string>;
 
   constructor(private albumService: AlbumService, private imageService: ImageService,
               private userService: UserService, private store: Store<AppState>) {
 
+    this.layout$ = this.store.pipe(select(layoutDirection));
     this.albums$ = this.store.pipe(select(selectAlbums));
     this.loading$ = this.store.pipe(select(albumListLoading));
   }
@@ -31,11 +33,11 @@ export class AlbumsComponent implements OnInit {
   }
 
   gridColumns(): void {
-    this.layout = 'columns';
+    this.store.dispatch(new ChangeLayout({direction: 'columns'}));
   }
 
   gridRows(): void {
-    this.layout = 'rows';
+    this.store.dispatch(new ChangeLayout({direction: 'rows'}));
   }
 
 }

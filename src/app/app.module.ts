@@ -20,6 +20,7 @@ import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {AlbumEffects} from './effects/album.effects';
 import {ImageEffects} from './effects/image.effects';
+import { AlbumComponent } from './albums/album/album.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {ImageEffects} from './effects/image.effects';
     SlideshowComponent,
     DeleteComponent,
     FilterImagesPipe,
+    AlbumComponent,
   ],
   imports: [
     BrowserModule,
