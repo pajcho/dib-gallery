@@ -1,7 +1,9 @@
 import {ActionReducerMap, createSelector, MetaReducer} from '@ngrx/store';
 import {environment} from '../../environments/environment';
 import {AlbumActionTypes, Actions} from '../actions/album.actions';
+import * as Image from '../actions/image.actions';
 import {Album} from '../core/album.model';
+import {ImageActionTypes} from '../actions/image.actions';
 
 export interface AlbumsState {
   data: Album[] | [];
@@ -19,7 +21,7 @@ export interface AppState {
   albums: AlbumsState;
 }
 
-export function albumsReducer(state: AlbumsState = initialAlbumsState, action: Actions): AlbumsState {
+export function albumsReducer(state: AlbumsState = initialAlbumsState, action: Actions | Image.Actions): AlbumsState {
   switch (action.type) {
     /**
      * Albums
@@ -64,6 +66,24 @@ export function albumsReducer(state: AlbumsState = initialAlbumsState, action: A
     case AlbumActionTypes.LoadAlbumError:
       return {
         data: state.data,
+        loading: false,
+        allAlbumsLoaded: state.allAlbumsLoaded,
+      };
+
+    /**
+     * Image
+     */
+    case ImageActionTypes.DeleteImage:
+      return state;
+
+    case ImageActionTypes.DeleteImageSuccess:
+      return {
+        // Delete image from the store album
+        data: (state.data as Album[]).map(album => {
+          album.images = album.images.filter(image => image.id !== action.payload.data.id);
+
+          return album;
+        }),
         loading: false,
         allAlbumsLoaded: state.allAlbumsLoaded,
       };

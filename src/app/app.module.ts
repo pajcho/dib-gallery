@@ -19,6 +19,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {AlbumEffects} from './effects/album.effects';
+import {ImageEffects} from './effects/image.effects';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import {AlbumEffects} from './effects/album.effects';
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([AlbumEffects]),
+    EffectsModule.forRoot([AlbumEffects, ImageEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]

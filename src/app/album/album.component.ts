@@ -13,6 +13,7 @@ import {select, Store} from '@ngrx/store';
 import {albumListLoading, AppState, selectAlbums} from '../reducers';
 import {LoadAlbum} from '../actions/album.actions';
 import {map} from 'rxjs/operators';
+import {DeleteImage} from '../actions/image.actions';
 
 @Component({
   selector: 'app-album',
@@ -67,7 +68,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed === true) {
-        // delete the image
+        this.store.dispatch(new DeleteImage({data: image}));
       }
     });
   }
