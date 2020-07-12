@@ -33,16 +33,16 @@ export function albumsReducer(state: AlbumsState = initialAlbumsState, action: A
 
     case AlbumActionTypes.LoadAlbumsStart:
       return {
-        data: [],
+        data: state.data,
         loading: true,
         allAlbumsLoaded: state.allAlbumsLoaded,
       };
 
     case AlbumActionTypes.LoadAlbumsSuccess:
       return {
-        data: action.payload.data,
+        data: [...state.data, ...action.payload.data],
         loading: false,
-        allAlbumsLoaded: true,
+        allAlbumsLoaded: state.allAlbumsLoaded,
       };
 
     case AlbumActionTypes.LoadAlbumsError:
@@ -50,6 +50,13 @@ export function albumsReducer(state: AlbumsState = initialAlbumsState, action: A
         data: [],
         loading: false,
         allAlbumsLoaded: false,
+      };
+
+    case AlbumActionTypes.AllAlbumsLoaded:
+      return {
+        data: state.data,
+        loading: false,
+        allAlbumsLoaded: true,
       };
 
     /**

@@ -7,7 +7,7 @@ import {
   LoadAlbumsError,
   LoadAlbum,
   LoadAlbumError,
-  LoadAlbumSuccess, LoadAlbumsStart
+  LoadAlbumSuccess, LoadAlbumsStart, AllAlbumsLoaded
 } from '../actions/album.actions';
 import {map, catchError, flatMap, filter, withLatestFrom, tap, switchMap} from 'rxjs/operators';
 import {allAlbumsLoaded, AppState, selectAlbums} from '../reducers';
@@ -30,10 +30,24 @@ export class AlbumEffects {
     // Trigger the loader and clear album list
     tap(() => this.store.dispatch(new LoadAlbumsStart())),
     // Otherwise we have to call the api to get the album details
-    flatMap(() => this.albumService.list().pipe(
-      catchError((errorMessage) => of(new LoadAlbumsError({error: errorMessage})))
-    )),
+    flatMap(
+      ([action]) => forkJoin([of(action), this.albumService.list().pipe(
+        catchError((errorMessage) => of(new LoadAlbumsError({error: errorMessage})))
+      )])
+    ),
     filter(result => !(result instanceof LoadAlbumsError)),
+    map(([action, albums]) => {
+      let filteredAlbums = [];
+
+      if ((albums as Album[]).length <= action.payload.start) {
+        // No more albums to load so we prevent further api calls
+        this.store.dispatch(new AllAlbumsLoaded());
+      } else {
+        filteredAlbums = (albums as Album[]).slice(action.payload.start, action.payload.end);
+      }
+
+      return filteredAlbums;
+    }),
     flatMap(
       (albums: Album[]) => forkJoin([of(albums), ...albums.map(album => {
         return forkJoin([album.getImages(), album.getUser()]);

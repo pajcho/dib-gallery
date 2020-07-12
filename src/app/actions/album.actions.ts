@@ -6,6 +6,8 @@ export enum AlbumActionTypes {
   LoadAlbumsStart = '[Albums] Load Albums Start',
   LoadAlbumsError = '[Albums] Load Albums Error',
   LoadAlbumsSuccess = '[Albums] Load Albums Success',
+  AllAlbumsLoaded = '[Albums] All Albums Loaded',
+
   LoadAlbum = '[Album] Load Album',
   LoadAlbumError = '[Album] Load Album Error',
   LoadAlbumSuccess = '[Album] Load Album Success',
@@ -16,6 +18,10 @@ export enum AlbumActionTypes {
  */
 export class LoadAlbums implements Action {
   readonly type = AlbumActionTypes.LoadAlbums;
+
+  constructor(readonly payload: { start: number, end: number }) {
+
+  }
 }
 
 export class LoadAlbumsStart implements Action {
@@ -36,6 +42,10 @@ export class LoadAlbumsError implements Action {
   constructor(readonly payload: { error: string }) {
 
   }
+}
+
+export class AllAlbumsLoaded implements Action {
+  readonly type = AlbumActionTypes.AllAlbumsLoaded;
 }
 
 /**
@@ -65,4 +75,12 @@ export class LoadAlbumError implements Action {
   }
 }
 
-export type Actions = LoadAlbums | LoadAlbumsStart | LoadAlbumsError | LoadAlbumsSuccess | LoadAlbum | LoadAlbumError | LoadAlbumSuccess;
+export type Actions =
+  LoadAlbums
+  | LoadAlbumsStart
+  | LoadAlbumsError
+  | LoadAlbumsSuccess
+  | AllAlbumsLoaded
+  | LoadAlbum
+  | LoadAlbumError
+  | LoadAlbumSuccess;

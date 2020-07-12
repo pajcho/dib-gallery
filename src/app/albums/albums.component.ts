@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AlbumService} from '../core/album.service';
 import {ImageService} from '../core/image.service';
 import {UserService} from '../core/user.service';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {albumListLoading, AppState, layoutDirection, selectAlbums} from '../reducers';
 import {LoadAlbums} from '../actions/album.actions';
@@ -14,14 +14,12 @@ import {ChangeLayout} from '../actions/layout.actions';
   templateUrl: './albums.component.html',
   styleUrls: ['./albums.component.scss']
 })
-export class AlbumsComponent implements OnInit, OnDestroy {
+export class AlbumsComponent implements OnInit {
   perPage = 12;
-  albums: Album[] = [];
-  allAlbums: Album[] = [];
+  currentPage = 1;
   albums$: Observable<Album[]>;
   loading$: Observable<boolean>;
   layout$: Observable<string>;
-  subscription: Subscription;
 
   constructor(private albumService: AlbumService, private imageService: ImageService,
               private userService: UserService, private store: Store<AppState>) {
@@ -32,12 +30,8 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new LoadAlbums());
-
-    this.subscription = this.albums$.subscribe(albums => {
-      this.allAlbums = albums;
-      this.albums = albums.slice(0, this.perPage);
-    });
+    // Load first page of albums
+    this.store.dispatch(new LoadAlbums({start: 0, end: this.perPage}));
   }
 
   gridColumns(): void {
@@ -49,17 +43,10 @@ export class AlbumsComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown(): void {
-    // TODO: Ideally we would just dispatch action here to load more items
+    const start = this.currentPage * this.perPage;
+    this.currentPage += 1;
+    const end = this.currentPage * this.perPage;
 
-    // Check if there are more items to load
-    if (this.allAlbums.length > this.albums.length) {
-      // Load more albums
-      const newAlbums = this.allAlbums.slice(this.albums.length, this.albums.length + this.perPage);
-      this.albums = [...this.albums, ...newAlbums];
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.store.dispatch(new LoadAlbums({start, end}));
   }
 }
