@@ -38,26 +38,30 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 999;
 }
 
-.dip-dialog-panel {
-  mat-dialog-container {
-    border-radius: 0;
-    padding: 10%;
+.cdk-overlay-container {
+  z-index: 1040;
 
-    mat-dialog-content {
-      max-height: 100%;
+  .dip-dialog-panel {
+    mat-dialog-container {
+      border-radius: 0;
+      padding: 10%;
 
-      .close-btn {
-        position: absolute;
-        top: 40px;
-        right: 40px;
-        -webkit-appearance: none;
-      }
+      mat-dialog-content {
+        max-height: 100%;
 
-      i {
-        -webkit-text-stroke: 7px #fff;
+        .close-btn {
+          position: absolute;
+          top: 40px;
+          right: 40px;
+          -webkit-appearance: none;
+        }
 
-        &.fa-times {
-          -webkit-text-stroke: 9px #fff;
+        i {
+          -webkit-text-stroke: 7px #fff;
+
+          &.fa-times {
+            -webkit-text-stroke: 9px #fff;
+          }
         }
       }
     }
