@@ -7,7 +7,7 @@ import {
   LoadAlbumsError,
   LoadAlbum,
   LoadAlbumError,
-  LoadAlbumSuccess, LoadAlbumsStart, AllAlbumsLoaded
+  LoadAlbumSuccess, LoadAlbumsStart, AllAlbumsLoaded, LoadAlbumStart
 } from '../actions/album.actions';
 import {map, catchError, flatMap, filter, withLatestFrom, tap, switchMap} from 'rxjs/operators';
 import {allAlbumsLoaded, AppState, selectAlbums} from '../reducers';
@@ -35,18 +35,18 @@ export class AlbumEffects {
         catchError((errorMessage) => of(new LoadAlbumsError({error: errorMessage})))
       )])
     ),
-    filter(result => !(result instanceof LoadAlbumsError)),
-    map(([action, albums]) => {
-      let filteredAlbums = [];
-
-      if ((albums as Album[]).length <= action.payload.start) {
+    filter(([, result]) => !(result instanceof LoadAlbumsError)),
+    map(([action, albums]: [LoadAlbums, Album[]]) => {
+      if (albums.length <= action.payload.start) {
         // No more albums to load so we prevent further api calls
         this.store.dispatch(new AllAlbumsLoaded());
-      } else {
-        filteredAlbums = (albums as Album[]).slice(action.payload.start, action.payload.end);
+
+        // And return empty array
+        return [];
       }
 
-      return filteredAlbums;
+      // Otherwise we return items from the API
+      return albums.slice(action.payload.start, action.payload.end);
     }),
     flatMap(
       (albums: Album[]) => forkJoin([of(albums), ...albums.map(album => {
@@ -71,6 +71,8 @@ export class AlbumEffects {
     withLatestFrom(this.store.pipe(select(selectAlbums))),
     // If album is already in store stop here
     filter(([action, albums]) => !albums.find((album: Album) => album.id === action.payload.id)),
+    // Trigger the loader and clear album list
+    tap(() => this.store.dispatch(new LoadAlbumStart())),
     // Otherwise we have to call the api to get the album details
     flatMap(([action]) => this.albumService.get(action.payload.id).pipe(
       catchError((errorMessage) => of(new LoadAlbumError({error: errorMessage})))

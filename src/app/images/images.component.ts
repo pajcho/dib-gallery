@@ -3,9 +3,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {SlideshowComponent} from '../dialog/slideshow/slideshow.component';
 import {DeleteComponent} from '../dialog/delete/delete.component';
 import {ActivatedRoute} from '@angular/router';
-import {AlbumService} from '../core/album.service';
-import {ImageService} from '../core/image.service';
-import {UserService} from '../core/user.service';
 import {combineLatest, Observable} from 'rxjs';
 import {Album} from '../core/album.model';
 import {Image} from '../core/image.model';
@@ -32,8 +29,7 @@ export class ImagesComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   layout$: Observable<string>;
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, private albumService: AlbumService,
-              private imageService: ImageService, private userService: UserService, private store: Store<AppState>,
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, private store: Store<AppState>,
               private actionSubject: ActionsSubject, private snackBar: MatSnackBar) {
 
     this.album$ = combineLatest([this.route.params, this.store.pipe(select(selectAlbums))]).pipe(

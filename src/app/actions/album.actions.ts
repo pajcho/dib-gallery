@@ -9,6 +9,7 @@ export enum AlbumActionTypes {
   AllAlbumsLoaded = '[Albums] All Albums Loaded',
 
   LoadAlbum = '[Album] Load Album',
+  LoadAlbumStart = '[Album] Load Album Start',
   LoadAlbumError = '[Album] Load Album Error',
   LoadAlbumSuccess = '[Album] Load Album Success',
 }
@@ -59,6 +60,10 @@ export class LoadAlbum implements Action {
   }
 }
 
+export class LoadAlbumStart implements Action {
+  readonly type = AlbumActionTypes.LoadAlbumStart;
+}
+
 export class LoadAlbumSuccess implements Action {
   readonly type = AlbumActionTypes.LoadAlbumSuccess;
 
@@ -82,5 +87,6 @@ export type Actions =
   | LoadAlbumsSuccess
   | AllAlbumsLoaded
   | LoadAlbum
+  | LoadAlbumStart
   | LoadAlbumError
   | LoadAlbumSuccess;

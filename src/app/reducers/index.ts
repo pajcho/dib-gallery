@@ -7,7 +7,7 @@ import {ImageActionTypes} from '../actions/image.actions';
 import * as Layout from '../actions/layout.actions';
 
 export interface AlbumsState {
-  data: Album[] | [];
+  data: Album[];
   loading: boolean;
   allAlbumsLoaded: boolean;
 }
@@ -29,7 +29,13 @@ export function albumsReducer(state: AlbumsState = initialAlbumsState, action: A
      * Albums
      */
     case AlbumActionTypes.LoadAlbums:
-      return state;
+      return {
+        // If we have only one item in the state that means we navigated to albums page
+        // from a single album, and we want to overwrite the state and load all albums
+        data: state.data.length === 1 ? [] : state.data,
+        loading: state.loading,
+        allAlbumsLoaded: state.allAlbumsLoaded,
+      };
 
     case AlbumActionTypes.LoadAlbumsStart:
       return {
@@ -64,6 +70,13 @@ export function albumsReducer(state: AlbumsState = initialAlbumsState, action: A
      */
     case AlbumActionTypes.LoadAlbum:
       return state;
+
+    case AlbumActionTypes.LoadAlbumStart:
+      return {
+        data: state.data,
+        loading: true,
+        allAlbumsLoaded: state.allAlbumsLoaded,
+      };
 
     case AlbumActionTypes.LoadAlbumSuccess:
       return {

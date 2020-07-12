@@ -8,10 +8,10 @@
     <h1>{{ (album$ | async)?.title }}</h1>
   </div>
   <div class="col-auto">
-    <a class="btn px-0 btn-link" (click)="gridColumns()" [ngClass]="{ 'active': (layout$ | async) === 'columns' }">
+    <a class="btn px-0 btn-link" (click)="gridColumns()" [class.active]="(layout$ | async) === 'columns'">
       <i class="fas fa-lg fa-th-large"></i>
     </a>
-    <a class="btn px-0 btn-link ml-3" (click)="gridRows()" [ngClass]="{ 'active': (layout$ | async) === 'rows' }">
+    <a class="btn px-0 btn-link ml-3" (click)="gridRows()" [class.active]="(layout$ | async) === 'rows'">
       <i class="fas fa-lg fa-bars"></i>
     </a>
   </div>
@@ -56,5 +56,12 @@
       <h1>Nema rezultata</h1>
     </div>
   </ng-container>
+
+  <div *ngIf="loading$ | async" class="text-center w-100 p-5">
+    <h2>
+      <i class="fas fa-circle-notch fa-spin spinner"></i>
+      Učitavam slike......
+    </h2>
+  </div>
 
 </div>
