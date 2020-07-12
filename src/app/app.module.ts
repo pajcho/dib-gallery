@@ -22,6 +22,7 @@ import {AlbumEffects} from './effects/album.effects';
 import {ImageEffects} from './effects/image.effects';
 import { AlbumComponent } from './albums/album/album.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    InfiniteScrollModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
